@@ -1,0 +1,1 @@
+"""The ovo component."""
