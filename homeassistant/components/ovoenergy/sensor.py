@@ -45,9 +45,11 @@ class OVOEntity(Entity):
 
     def __init__(self, name, username, password):
         """Initialize entity."""
+        from ovoenergy.ovoenergy import OVOEnergy
         self._name = name
-        self._username = username
-        self._password = password
+        self._ovo = OVOEnergy(username, password)
+        self._daily_usage = None
+        self._half_hourly_usage = None
 
     @property
     def name(self):
@@ -69,10 +71,8 @@ class OVOEntity(Entity):
         _LOGGER.debug(date)
         _LOGGER.debug(date[-3])
 
-        from ovoenergy.ovoenergy import OVOEnergy
-        self._ovo = OVOEnergy(self._username, self._password)
-        daily_usage = self._ovo.get_daily_usage(date[-3])
-        half_hourly_usage = self._ovo.get_half_hourly_usage(date)
+        self._daily_usage = self._ovo.get_daily_usage(date[-3])
+        self._half_hourly_usage = self._ovo.get_half_hourly_usage(date)
 
         value = 'test'
 
