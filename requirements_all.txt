@@ -798,7 +798,7 @@ openwrt-luci-rpc==1.0.5
 orvibo==1.1.1
 
 # homeassistant.components.ovoenergy.sensor
-ovoenergy==0.1.1
+ovoenergy==0.1.2
 
 # homeassistant.components.mqtt
 # homeassistant.components.shiftr

@@ -19,7 +19,7 @@ from homeassistant.helpers.entity import Entity
 
 _LOGGER = logging.getLogger(__name__)
 
-REQUIREMENTS = ['ovoenergy==0.1.1']
+REQUIREMENTS = ['ovoenergy==0.1.2']
 
 ICON_GAS = 'mdi:fire'
 ICON_POWER = 'mdi:flash'
