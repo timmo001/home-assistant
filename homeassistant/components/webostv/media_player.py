@@ -40,6 +40,7 @@ from homeassistant.const import (
     STATE_OFF,
     STATE_ON,
 )
+from homeassistant.exceptions import PlatformNotReady
 from homeassistant.helpers.dispatcher import async_dispatcher_connect
 from homeassistant.helpers.script import Script
 
@@ -73,6 +74,12 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
     turn_on_action = discovery_info.get(CONF_ON_ACTION)
 
     client = hass.data[DOMAIN][host]["client"]
+
+    try:
+        await client.connect()
+    except OSError as exception:
+        raise PlatformNotReady from exception
+
     on_script = Script(hass, turn_on_action) if turn_on_action else None
 
     entity = LgWebOSMediaPlayerEntity(client, name, customize, on_script)
@@ -114,6 +121,8 @@ class LgWebOSMediaPlayerEntity(MediaPlayerDevice):
 
     def __init__(self, client: WebOsClient, name: str, customize, on_script=None):
         """Initialize the webos device."""
+        if client is None or client.software_info is None:
+            raise PlatformNotReady
         self._client = client
         self._name = name
         self._unique_id = client.software_info["device_id"]
