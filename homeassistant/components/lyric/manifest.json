@@ -5,5 +5,8 @@
   "documentation": "https://www.home-assistant.io/integrations/lyric",
   "dependencies": ["http"],
   "codeowners": ["@timmo001"],
-  "requirements": ["python-lyric==1.1.6"]
+  "requirements": ["python-lyric==1.1.6"],
+  "homekit": {
+    "models": ["YT4910WF4011"]
+  }
 }

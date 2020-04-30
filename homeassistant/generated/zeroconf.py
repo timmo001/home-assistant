@@ -67,5 +67,6 @@ HOMEKIT = {
     "TRADFRI": "tradfri",
     "Welcome": "netatmo",
     "Wemo": "wemo",
+    "YT4910WF4011": "lyric",
     "tado": "tado"
 }

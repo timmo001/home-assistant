@@ -22,6 +22,7 @@ from homeassistant.const import (
     CONF_NAME,
     CONF_TOKEN,
 )
+from homeassistant.helpers.typing import HomeAssistantType
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -54,6 +55,15 @@ class LyricFlowHandler(ConfigFlow, domain=DOMAIN):
             ),
             errors=errors or {},
         )
+
+    async def async_step_homekit(self, homekit_info):
+        """Handle a flow initiated by the homekit discovery."""
+        properties = {
+            key.lower(): value for (key, value) in homekit_info["properties"].items()
+        }
+        await self.async_set_unique_id(properties["id"])
+
+        return await self.async_step_user()
 
     async def async_step_user(self, user_input=None, code=None):
         """Handle a flow initiated by the user."""
@@ -106,7 +116,7 @@ class LyricFlowHandler(ConfigFlow, domain=DOMAIN):
         self.code = code
         return self.async_external_step_done(next_step_id="creation")
 
-    async def async_step_creation(self, user_input=None):
+    async def async_step_creation(self, hass: HomeAssistantType, user_input=None):
         """Create Lyric api and entries."""
         self.lyric.authorization_code(self.code, self.flow_id)
 
