@@ -4,6 +4,12 @@ import logging
 
 import voluptuous as vol
 
+from homeassistant.components.lyric import LyricDeviceEntity
+from homeassistant.components.lyric.const import (
+    DATA_LYRIC_CLIENT,
+    DATA_LYRIC_DEVICES,
+    DOMAIN,
+)
 from homeassistant.components.sensor import PLATFORM_SCHEMA
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
@@ -15,9 +21,6 @@ from homeassistant.const import (
 from homeassistant.exceptions import PlatformNotReady
 from homeassistant.helpers.typing import HomeAssistantType
 from homeassistant.util import dt as dt_util
-
-from . import LyricDeviceEntity
-from .const import DATA_LYRIC_CLIENT, DATA_LYRIC_DEVICES, DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 

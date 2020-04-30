@@ -5,13 +5,7 @@ from typing import Any, Dict
 from lyric import Lyric
 import voluptuous as vol
 
-from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_TOKEN
-from homeassistant.helpers import config_validation as cv
-from homeassistant.helpers.entity import Entity
-from homeassistant.helpers.typing import ConfigType, HomeAssistantType
-
-from .const import (
+from homeassistant.components.lyric.const import (
     CONF_CLIENT_ID,
     CONF_CLIENT_SECRET,
     CONF_LYRIC_CONFIG_FILE,
@@ -20,6 +14,11 @@ from .const import (
     DOMAIN,
     SERVICE_HOLD_TIME,
 )
+from homeassistant.config_entries import ConfigEntry
+from homeassistant.const import CONF_TOKEN
+from homeassistant.helpers import config_validation as cv
+from homeassistant.helpers.entity import Entity
+from homeassistant.helpers.typing import ConfigType, HomeAssistantType
 
 _LOGGER = logging.getLogger(__name__)
 

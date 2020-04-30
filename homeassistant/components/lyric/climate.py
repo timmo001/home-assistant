@@ -16,6 +16,13 @@ from homeassistant.components.climate.const import (
     SUPPORT_TARGET_TEMPERATURE,
     SUPPORT_TARGET_TEMPERATURE_RANGE,
 )
+from homeassistant.components.lyric import LyricDeviceEntity
+from homeassistant.components.lyric.const import (
+    DATA_LYRIC_CLIENT,
+    DATA_LYRIC_DEVICES,
+    DOMAIN,
+    SERVICE_HOLD_TIME,
+)
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
     ATTR_ENTITY_ID,
@@ -27,9 +34,6 @@ from homeassistant.const import (
 from homeassistant.exceptions import PlatformNotReady
 import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.typing import HomeAssistantType
-
-from . import LyricDeviceEntity
-from .const import DATA_LYRIC_CLIENT, DATA_LYRIC_DEVICES, DOMAIN, SERVICE_HOLD_TIME
 
 _LOGGER = logging.getLogger(__name__)
 

@@ -7,9 +7,7 @@ from lyric import Lyric
 
 from homeassistant import config_entries
 from homeassistant.components.http import HomeAssistantView
-from homeassistant.config_entries import ConfigFlow
-
-from .const import (
+from homeassistant.components.lyric.const import (
     AUTH_CALLBACK_NAME,
     AUTH_CALLBACK_PATH,
     CONF_CLIENT_ID,
@@ -18,6 +16,7 @@ from .const import (
     DATA_LYRIC_CONFIG,
     DOMAIN,
 )
+from homeassistant.config_entries import ConfigFlow
 
 _LOGGER = logging.getLogger(__name__)
 
