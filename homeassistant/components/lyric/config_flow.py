@@ -12,13 +12,16 @@ from homeassistant.components.http import HomeAssistantView
 from homeassistant.components.lyric.const import (
     AUTH_CALLBACK_NAME,
     AUTH_CALLBACK_PATH,
-    CONF_CLIENT_ID,
-    CONF_CLIENT_SECRET,
     CONF_LYRIC_CONFIG_FILE,
     DOMAIN,
 )
 from homeassistant.config_entries import ConfigFlow
-from homeassistant.const import CONF_NAME, CONF_TOKEN
+from homeassistant.const import (
+    CONF_CLIENT_ID,
+    CONF_CLIENT_SECRET,
+    CONF_NAME,
+    CONF_TOKEN,
+)
 
 _LOGGER = logging.getLogger(__name__)
 

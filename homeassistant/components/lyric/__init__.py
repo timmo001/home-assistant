@@ -5,15 +5,18 @@ from typing import Any, Dict
 from lyric import Lyric
 
 from homeassistant.components.lyric.const import (
-    CONF_CLIENT_ID,
-    CONF_CLIENT_SECRET,
     CONF_LYRIC_CONFIG_FILE,
     DATA_LYRIC_CLIENT,
     DOMAIN,
     SERVICE_HOLD_TIME,
 )
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_NAME, CONF_TOKEN
+from homeassistant.const import (
+    CONF_CLIENT_ID,
+    CONF_CLIENT_SECRET,
+    CONF_NAME,
+    CONF_TOKEN,
+)
 from homeassistant.helpers.entity import Entity
 from homeassistant.helpers.typing import ConfigType, HomeAssistantType
 
