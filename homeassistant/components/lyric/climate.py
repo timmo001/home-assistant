@@ -2,6 +2,7 @@
 import logging
 from typing import List, Optional
 
+from lyric import Location, lyricDevice
 import voluptuous as vol
 
 from homeassistant.components.climate import ClimateEntity
@@ -116,7 +117,7 @@ async def async_setup_entry(
 class LyricThermostat(LyricDeviceEntity, ClimateEntity):
     """Representation of a Lyric thermostat."""
 
-    def __init__(self, device, location, temp_unit) -> None:
+    def __init__(self, device: lyricDevice, location: Location, temp_unit: str) -> None:
         """Initialize the thermostat."""
         unique_id = f"{device.macID}_climate"
         name = f"{device.name}"

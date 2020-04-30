@@ -68,10 +68,9 @@ async def async_unload_entry(hass: HomeAssistantType, entry: ConfigType) -> bool
 class LyricClient:
     """Structure Lyric functions for hass."""
 
-    def __init__(self, lyric):
+    def __init__(self, lyric: Lyric):
         """Init Lyric devices."""
         self._lyric = lyric
-        self._location = [location.name for location in lyric.locations]
 
     def devices(self):
         """Generate a list of thermostats and their location."""
