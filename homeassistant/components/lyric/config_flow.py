@@ -2,8 +2,10 @@
 import asyncio
 import logging
 
+from aiohttp import web_response
 import async_timeout
 from lyric import Lyric
+import voluptuous as vol
 
 from homeassistant import config_entries
 from homeassistant.components.http import HomeAssistantView
@@ -13,10 +15,10 @@ from homeassistant.components.lyric.const import (
     CONF_CLIENT_ID,
     CONF_CLIENT_SECRET,
     CONF_LYRIC_CONFIG_FILE,
-    DATA_LYRIC_CONFIG,
     DOMAIN,
 )
 from homeassistant.config_entries import ConfigFlow
+from homeassistant.const import CONF_NAME, CONF_TOKEN
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -33,24 +35,37 @@ class LyricFlowHandler(ConfigFlow, domain=DOMAIN):
         self.lyric = None
         self.client_id = None
         self.client_secret = None
+        self.name = None
         self.code = None
 
-    async def async_step_user(self, code=None):
+    async def _show_setup_form(self, errors=None):
+        """Show the setup form to the user."""
+        return self.async_show_form(
+            step_id="user",
+            data_schema=vol.Schema(
+                {
+                    vol.Required(CONF_CLIENT_ID): str,
+                    vol.Required(CONF_CLIENT_SECRET): str,
+                    vol.Optional(CONF_NAME, default="Lyric"): str,
+                }
+            ),
+            errors=errors or {},
+        )
+
+    async def async_step_user(self, user_input=None, code=None):
         """Handle a flow initiated by the user."""
-        if self._async_current_entries():
-            return self.async_abort(reason="single_instance_allowed")
+        if user_input is None:
+            return await self._show_setup_form(user_input)
 
-        if not self.hass.data.get(DATA_LYRIC_CONFIG):
-            return self.async_abort(reason="no_config")
-
-        conf = self.hass.data.get(DATA_LYRIC_CONFIG)
-
-        self.client_id = conf[CONF_CLIENT_ID]
-        self.client_secret = conf[CONF_CLIENT_SECRET]
+        self.client_id = user_input[CONF_CLIENT_ID]
+        self.client_secret = user_input[CONF_CLIENT_SECRET]
+        self.name = (
+            user_input[CONF_NAME] if user_input[CONF_NAME] is not None else "Lyric"
+        )
 
         return await self.async_step_auth(code)
 
-    async def async_step_auth(self, code):
+    async def async_step_auth(self, code=None):
         """Create an entry for auth."""
         # Flow has been triggered from Lyric api
         if code is not None:
@@ -93,11 +108,12 @@ class LyricFlowHandler(ConfigFlow, domain=DOMAIN):
         self.lyric.authorization_code(self.code, self.flow_id)
 
         return self.async_create_entry(
-            title="Lyric",
+            title=self.name,
             data={
-                "client_id": self.client_id,
-                "client_secret": self.client_secret,
-                "token": self.lyric.token,
+                CONF_NAME: self.name,
+                CONF_CLIENT_ID: self.client_id,
+                CONF_CLIENT_SECRET: self.client_secret,
+                CONF_TOKEN: self.lyric.token,
             },
         )
 
@@ -111,7 +127,6 @@ class LyricAuthCallbackView(HomeAssistantView):
 
     async def get(self, request):
         """Receive authorization code."""
-        from aiohttp import web_response
 
         if "code" not in request.query or "state" not in request.query:
             return web_response.Response(

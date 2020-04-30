@@ -9,7 +9,8 @@
                 "description": "Set up your Honeywell Lyric instance to allow monitoring and control.",
                 "data": {
                     "client_id": "Client ID",
-                    "client_secret": "Client Secret"
+                    "client_secret": "Client Secret",
+                    "name": "Name"
                 }
             }
         },

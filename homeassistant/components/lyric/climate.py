@@ -4,7 +4,7 @@ from typing import List, Optional
 
 import voluptuous as vol
 
-from homeassistant.components.climate import ClimateDevice
+from homeassistant.components.climate import ClimateEntity
 from homeassistant.components.climate.const import (
     ATTR_TARGET_TEMP_HIGH,
     ATTR_TARGET_TEMP_LOW,
@@ -19,7 +19,6 @@ from homeassistant.components.climate.const import (
 from homeassistant.components.lyric import LyricDeviceEntity
 from homeassistant.components.lyric.const import (
     DATA_LYRIC_CLIENT,
-    DATA_LYRIC_DEVICES,
     DOMAIN,
     SERVICE_HOLD_TIME,
 )
@@ -28,6 +27,7 @@ from homeassistant.const import (
     ATTR_ENTITY_ID,
     ATTR_TEMPERATURE,
     ATTR_TIME,
+    CONF_NAME,
     TEMP_CELSIUS,
     TEMP_FAHRENHEIT,
 )
@@ -73,14 +73,13 @@ async def async_setup_entry(
     hass: HomeAssistantType, entry: ConfigEntry, async_add_entities
 ) -> None:
     """Set up Lyric thermostat based on a config entry."""
-    lyric = hass.data[DOMAIN][DATA_LYRIC_CLIENT]
+    instance_key = f"{DOMAIN}_{entry.data[CONF_NAME]}"
+    lyric = hass.data[instance_key][DATA_LYRIC_CLIENT]
 
     try:
         devices = await hass.async_add_executor_job(lyric.devices)
     except ConnectionError as exception:
         raise PlatformNotReady from exception
-
-    hass.data[DOMAIN][DATA_LYRIC_DEVICES] = devices
 
     temp_unit = hass.config.units.temperature_unit
     entities = [
@@ -114,7 +113,7 @@ async def async_setup_entry(
     )
 
 
-class LyricThermostat(LyricDeviceEntity, ClimateDevice):
+class LyricThermostat(LyricDeviceEntity, ClimateEntity):
     """Representation of a Lyric thermostat."""
 
     def __init__(self, device, location, temp_unit) -> None:

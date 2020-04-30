@@ -3,69 +3,41 @@ import logging
 from typing import Any, Dict
 
 from lyric import Lyric
-import voluptuous as vol
 
 from homeassistant.components.lyric.const import (
     CONF_CLIENT_ID,
     CONF_CLIENT_SECRET,
     CONF_LYRIC_CONFIG_FILE,
     DATA_LYRIC_CLIENT,
-    DATA_LYRIC_CONFIG,
     DOMAIN,
     SERVICE_HOLD_TIME,
 )
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import CONF_TOKEN
-from homeassistant.helpers import config_validation as cv
+from homeassistant.const import CONF_NAME, CONF_TOKEN
 from homeassistant.helpers.entity import Entity
 from homeassistant.helpers.typing import ConfigType, HomeAssistantType
 
 _LOGGER = logging.getLogger(__name__)
 
-CONFIG_SCHEMA = vol.Schema(
-    {
-        DOMAIN: vol.Schema(
-            {
-                vol.Required(CONF_CLIENT_ID): cv.string,
-                vol.Required(CONF_CLIENT_SECRET): cv.string,
-            }
-        )
-    },
-    extra=vol.ALLOW_EXTRA,
-)
-
 
 async def async_setup(hass: HomeAssistantType, config: ConfigType) -> bool:
     """Set up the Lyric component."""
-    if DOMAIN not in config:
-        return True
-
-    conf = config[DOMAIN]
-
-    # Store config to be used during entry setup
-    hass.data[DATA_LYRIC_CONFIG] = conf
-
     return True
 
 
 async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool:
     """Set up Lyric from a config entry."""
-    conf = hass.data[DATA_LYRIC_CONFIG]
-
-    client_id = conf[CONF_CLIENT_ID]
-    client_secret = conf[CONF_CLIENT_SECRET]
-    token = entry.data[CONF_TOKEN]
-    token_cache_file = hass.config.path(CONF_LYRIC_CONFIG_FILE)
+    instance_key = f"{DOMAIN}_{entry.data[CONF_NAME]}"
 
     lyric = Lyric(
         app_name="Home Assistant",
-        client_id=client_id,
-        client_secret=client_secret,
-        token=token,
-        token_cache_file=token_cache_file,
+        client_id=entry.data[CONF_CLIENT_ID],
+        client_secret=entry.data[CONF_CLIENT_SECRET],
+        token=entry.data[CONF_TOKEN],
+        token_cache_file=hass.config.path(CONF_LYRIC_CONFIG_FILE),
     )
 
-    hass.data.setdefault(DOMAIN, {})[DATA_LYRIC_CLIENT] = LyricClient(lyric)
+    hass.data.setdefault(instance_key, {})[DATA_LYRIC_CLIENT] = LyricClient(lyric)
 
     for component in "climate", "sensor":
         hass.async_create_task(
@@ -77,13 +49,15 @@ async def async_setup_entry(hass: HomeAssistantType, entry: ConfigEntry) -> bool
 
 async def async_unload_entry(hass: HomeAssistantType, entry: ConfigType) -> bool:
     """Unload Lyric config entry."""
+    instance_key = f"{DOMAIN}_{entry.data[CONF_NAME]}"
+
     for component in "climate", "sensor":
         await hass.config_entries.async_forward_entry_unload(entry, component)
 
     # Remove the climate service
-    hass.services.async_remove(DOMAIN, SERVICE_HOLD_TIME)
+    hass.services.async_remove(instance_key, SERVICE_HOLD_TIME)
 
-    del hass.data[DOMAIN]
+    del hass.data[instance_key]
 
     return True
 

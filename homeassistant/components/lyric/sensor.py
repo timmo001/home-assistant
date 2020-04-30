@@ -5,14 +5,11 @@ import logging
 import voluptuous as vol
 
 from homeassistant.components.lyric import LyricDeviceEntity
-from homeassistant.components.lyric.const import (
-    DATA_LYRIC_CLIENT,
-    DATA_LYRIC_DEVICES,
-    DOMAIN,
-)
+from homeassistant.components.lyric.const import DATA_LYRIC_CLIENT, DOMAIN
 from homeassistant.components.sensor import PLATFORM_SCHEMA
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
+    CONF_NAME,
     CONF_SCAN_INTERVAL,
     DEVICE_CLASS_HUMIDITY,
     DEVICE_CLASS_TEMPERATURE,
@@ -33,14 +30,13 @@ async def async_setup_entry(
     hass: HomeAssistantType, entry: ConfigEntry, async_add_entities
 ) -> None:
     """Set up Lyric sensor based on a config entry."""
-    lyric = hass.data[DOMAIN][DATA_LYRIC_CLIENT]
+    instance_key = f"{DOMAIN}_{entry.data[CONF_NAME]}"
+    lyric = hass.data[instance_key][DATA_LYRIC_CLIENT]
 
     try:
         devices = lyric.devices()
     except Exception as exception:
         raise PlatformNotReady from exception
-
-    hass.data[DOMAIN][DATA_LYRIC_DEVICES] = devices
 
     devices = []
     for location, device in lyric.devices():
