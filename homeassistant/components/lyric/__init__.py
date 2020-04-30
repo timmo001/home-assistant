@@ -70,12 +70,12 @@ class LyricClient:
 
     def __init__(self, lyric):
         """Init Lyric devices."""
-        self.lyric = lyric
+        self._lyric = lyric
         self._location = [location.name for location in lyric.locations]
 
     def devices(self):
         """Generate a list of thermostats and their location."""
-        for location in self.lyric.locations:
+        for location in self._lyric.locations:
             for device in location.thermostats:
                 yield (location, device)
 
