@@ -1,22 +1,16 @@
 {
-    "config": {
-        "create_entry": {
-            "default": "Successfully authenticated with Honeywell Lyric."
-        },
-        "step": {
-            "user": {
-                "title": "Link your Honeywell Lyric account",
-                "description": "Set up your Honeywell Lyric instance to allow monitoring and control.",
-                "data": {
-                    "client_id": "Client ID",
-                    "client_secret": "Client Secret",
-                    "name": "Name"
-                }
-            }
-        },
-        "error": {
-            "connection_error": "Failed to connect."
-        }
+  "config": {
+    "step": {
+      "pick_implementation": {
+        "title": "Pick Authentication Method"
+      }
     },
-    "title": "Honeywell Lyric"
+    "abort": {
+      "missing_configuration": "The {info.name} component is not configured. Please follow the documentation."
+    },
+    "create_entry": {
+      "default": "Successfully authenticated with Honeywell Lyric."
+    }
+  },
+  "title": "Honeywell Lyric"
 }
