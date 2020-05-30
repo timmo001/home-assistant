@@ -20,4 +20,4 @@ class OAuth2FlowHandler(
     @property
     def logger(self) -> logging.Logger:
         """Return logger."""
-        return logging.getLogger(__name__)
+        return _LOGGER

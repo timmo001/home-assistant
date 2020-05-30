@@ -707,6 +707,9 @@ python-izone==1.1.2
 # homeassistant.components.juicenet
 python-juicenet==1.0.1
 
+# homeassistant.components.lyric
+python-lyric==1.1.6
+
 # homeassistant.components.xiaomi_miio
 python-miio==0.5.0.1
 
