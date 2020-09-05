@@ -240,6 +240,7 @@ homeassistant/components/luftdaten/* @fabaff
 homeassistant/components/lupusec/* @majuss
 homeassistant/components/lutron/* @JonGilmore
 homeassistant/components/lutron_caseta/* @swails
+homeassistant/components/lyric/* @timmo001
 homeassistant/components/mastodon/* @fabaff
 homeassistant/components/matrix/* @tinloaf
 homeassistant/components/mcp23017/* @jardiamj
@@ -325,6 +326,7 @@ homeassistant/components/plum_lightpad/* @ColinHarrington @prystupa
 homeassistant/components/point/* @fredrike
 homeassistant/components/poolsense/* @haemishkyd
 homeassistant/components/powerwall/* @bdraco @jrester
+homeassistant/components/progettihwsw/* @ardaseremet
 homeassistant/components/prometheus/* @knyar
 homeassistant/components/proxmoxve/* @k4ds3 @jhollowe
 homeassistant/components/ps4/* @ktnrg45
@@ -366,8 +368,9 @@ homeassistant/components/sentry/* @dcramer @frenck
 homeassistant/components/serial/* @fabaff
 homeassistant/components/seven_segments/* @fabaff
 homeassistant/components/seventeentrack/* @bachya
+homeassistant/components/sharkiq/* @ajmarks
 homeassistant/components/shell_command/* @home-assistant/core
-homeassistant/components/shelly/* @balloob
+homeassistant/components/shelly/* @balloob @bieniu
 homeassistant/components/shiftr/* @fabaff
 homeassistant/components/shodan/* @fabaff
 homeassistant/components/sighthound/* @robmarkcole

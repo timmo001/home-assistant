@@ -655,6 +655,9 @@ getmac==0.8.2
 # homeassistant.components.gios
 gios==0.1.1
 
+# homeassistant.components.lyric
+git+https://github.com/timmo001/aiolyric.git@master#aiolyric==1.0.0
+
 # homeassistant.components.gitter
 gitterpy==0.1.7
 
@@ -1114,6 +1117,9 @@ praw==7.1.0
 
 # homeassistant.components.islamic_prayer_times
 prayer_times_calculator==0.0.3
+
+# homeassistant.components.progettihwsw
+progettihwsw==0.1.1
 
 # homeassistant.components.proliphix
 proliphix==0.4.1
@@ -1958,6 +1964,9 @@ sense_energy==0.7.2
 # homeassistant.components.sentry
 sentry-sdk==0.16.5
 
+# homeassistant.components.sharkiq
+sharkiqpy==0.1.8
+
 # homeassistant.components.aquostv
 sharp_aquos_rc==0.3.2
 
@@ -2251,7 +2260,7 @@ xboxapi==2.0.1
 xfinity-gateway==0.0.4
 
 # homeassistant.components.knx
-xknx==0.12.0
+xknx==0.13.0
 
 # homeassistant.components.bluesound
 # homeassistant.components.rest

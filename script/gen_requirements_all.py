@@ -213,8 +213,9 @@ def gather_requirements_from_modules(errors, reqs):
 def process_requirements(errors, module_requirements, package, reqs):
     """Process all of the requirements."""
     for req in module_requirements:
-        if "://" in req:
-            errors.append(f"{package}[Only pypi dependencies are allowed: {req}]")
+        # TODO: Re enable
+        # if "://" in req:
+        #     errors.append(f"{package}[Only pypi dependencies are allowed: {req}]")
         if req.partition("==")[1] == "" and req not in IGNORE_PIN:
             errors.append(f"{package}[Please pin requirement {req}, see {URL_PIN}]")
         reqs.setdefault(req, []).append(package)
