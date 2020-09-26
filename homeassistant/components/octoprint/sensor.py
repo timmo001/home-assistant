@@ -1,9 +1,16 @@
 """Support for monitoring OctoPrint sensors."""
+from datetime import datetime, timedelta
 import logging
 
 import requests
 
-from homeassistant.const import PERCENTAGE, TEMP_CELSIUS
+from homeassistant.const import (
+    DEVICE_CLASS_TEMPERATURE,
+    DEVICE_CLASS_TIMESTAMP,
+    PERCENTAGE,
+    TEMP_CELSIUS,
+    TIME_SECONDS,
+)
 from homeassistant.helpers.entity import Entity
 
 from . import DOMAIN as COMPONENT_DOMAIN, SENSOR_TYPES
@@ -110,18 +117,28 @@ class OctoPrintSensor(Entity):
     @property
     def state(self):
         """Return the state of the sensor."""
-        sensor_unit = self.unit_of_measurement
-        if sensor_unit in (TEMP_CELSIUS, PERCENTAGE):
+        if self._unit_of_measurement in (TEMP_CELSIUS, PERCENTAGE):
             # API sometimes returns null and not 0
             if self._state is None:
                 self._state = 0
             return round(self._state, 2)
+        if self._unit_of_measurement == TIME_SECONDS:
+            return datetime.now() + timedelta(seconds=self._state)
         return self._state
+
+    @property
+    def device_class(self):
+        """Return the device class of the entity."""
+        if self._unit_of_measurement == TEMP_CELSIUS:
+            return DEVICE_CLASS_TEMPERATURE
+        if self._unit_of_measurement == TIME_SECONDS:
+            return DEVICE_CLASS_TIMESTAMP
 
     @property
     def unit_of_measurement(self):
         """Return the unit of measurement of this entity, if any."""
-        return self._unit_of_measurement
+        if self._unit_of_measurement != "s":
+            return self._unit_of_measurement
 
     def update(self):
         """Update state of sensor."""
