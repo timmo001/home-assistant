@@ -34,5 +34,11 @@
             }
         }
     },
+    "device_automation": {
+        "action_type": {
+            "open": "Open",
+            "send_command": "Send Command"
+        }
+    },
     "title": "System Bridge"
 }

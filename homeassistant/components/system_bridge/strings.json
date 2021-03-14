@@ -34,5 +34,11 @@
       "invalid_host": "[%key:common::config_flow::error::invalid_host%]",
       "unknown": "[%key:common::config_flow::error::unknown%]"
     }
+  },
+  "device_automation": {
+    "action_type": {
+      "send_command": "Send Command",
+      "open": "Open"
+    }
   }
 }
